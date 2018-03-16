@@ -12,15 +12,21 @@ class BubbleCursor:
         self.x = 0
         self.y = 0
         self.size = 0
-
+        self.cercleX = 0
+        self.cercleY = 0
         self.listTarget = listTargets
         self.closest = None
 
     def paint(self, qPainter):
         qPainter.setBrush(self.defaultCol)
-        bbox = QRect(QPoint(self.x-(self.size/2), self.y-(self.size/2)), QSize(self.size, self.size))
-        print(self.x , self.y , self.size)
-        qPainter.drawEllipse(bbox)
+        #bbox = QRect(QPoint(self.x-(self.size/2), self.y-(self.size/2)), QSize(self.size, self.size))
+        bbox = QLine(self.x, self.y, self.cercleX, self.cercleY)
+        pen = QPen()
+        pen.setWidth(3)
+        pen.setBrush(Qt.black)
+        qPainter.setPen(pen)
+        qPainter.drawLine(bbox)
+        #qPainter.drawEllipse(bbox)
 
     def move(self, x, y):
         self.x = x
@@ -39,6 +45,8 @@ class BubbleCursor:
             if(currDis == minDis):
                 self.closest = target
                 self.size = currDis
+                self.cercleX = (target.x+target.size/2)
+                self.cercleY = (target.y+target.size/2)
                 target.toSelect = True
                 break;
             else:
